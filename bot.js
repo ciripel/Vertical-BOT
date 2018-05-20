@@ -26,7 +26,7 @@ client.on('ready', () => {
 client.on('message', msg => {
 if (msg.content.substring(0, 1) === '?') {
 if (msg.webhookID === null) {
-if(msg.channel.name === 'bot-commands' || msg.channel.type === 'dm' || msg.member.roles.find('name', 'Vertical Team') || msg.member.roles.find('name', 'Vertical Admins') || msg.member.roles.find('name', 'Bot Developer')){
+if(msg.channel.name === 'bot-commands' || msg.channel.type === 'dm' || msg.member.roles.find('name', 'Vertical Team') || msg.member.roles.find('name', 'Vertical Admins') || msg.member.roles.find('name', 'Bot')){
     var args = msg.content.substring(1).split(' ');
     var cmd = args[0];
     args = args.splice(1);
@@ -164,7 +164,7 @@ if(msg.channel.name === 'bot-commands' || msg.channel.type === 'dm' || msg.membe
         case 'pool':
             switch (cmd1){
                 case undefined:
-                    msg.channel.send('-- `?pool bsod` | Bsod.pw <https://bsod.pw/>\n-- `?pool hive` | TheHIVE <https://hive.gulfcoastmining.com/>\n-- `?pool umin` | UMine <https://umine.org/>\n-- `?pool icem` | IceMining <https://icemining.ca/>\n-- `?pool arcp` | ArcPool <https://arcpool.com/>\n-- `?pool tank` | AltTank Mining <https://www.alttank.ca/>\n-- `?pool fish` | Shit.Fish <https://vtl.shit.fish/>\n-- `?pool crun` | BlockCruncher <https://blockcruncher.com/>\n-- `?pool angr` | Angry Pool <http://angrypool.com/>\n-- `?pool evil` | Private Evil <http://evil.ru/>\n-- `?pool gosc` | Gos.cx <https://gos.cx/>\n-- `?pool cryp` | CryptoPool Party <https://cryptopool.party/>\n-- `?pool asia` | Asia Pool <https://asiapool.trade/>\n\nUse `?pool [POOL]` for specific mining details\n_Please spread the hashpower across all pools._')
+                    msg.channel.send('-- `?pool bsod` | Bsod.pw <https://bsod.pw/>\n-- `?pool hive` | TheHIVE <https://hive.gulfcoastmining.com/>\n-- `?pool umin` | UMine <https://umine.org/>\n-- `?pool icem` | IceMining <https://icemining.ca/>\n-- `?pool arcp` | ArcPool <https://arcpool.com/>\n-- `?pool tank` | AltTank Mining <https://www.alttank.ca/>\n-- `?pool fish` | Shit.Fish <https://vtl.shit.fish/>\n-- `?pool crun` | BlockCruncher <https://blockcruncher.com/>\n-- `?pool angr` | Angry Pool <http://angrypool.com/>\n-- `?pool evil` | Private Evil <http://evil.ru/>\n-- `?pool gosc` | Gos.cx <https://gos.cx/>\n-- `?pool cryp` | CryptoPool Party <https://cryptopool.party/>\n-- `?pool asia` | Asia Pool <https://asiapool.trade/>\n-- `?pool noto` | NotoHash <https://notohash.club/>\n\nUse `?pool [POOL]` for specific mining details\n_Please spread the hashpower across all pools._')
                 break;
                 case 'bsod':
                     msg.channel.send('```prolog\nTheBSODPool connection info.```\nWebsite: <https://bsod.pw/>\nDefault port: `2286`\nEU server: `eu.bsod.pw`\nUS server: `us.bsod.pw`\nAsia server: `asia.bsod.pw`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://eu.bsod.pw:2286 -u WALLET.rig -p c=VTL```')
@@ -204,6 +204,9 @@ if(msg.channel.name === 'bot-commands' || msg.channel.type === 'dm' || msg.membe
                 break;
                 case 'asia':
                     msg.channel.send('```prolog\nAsia Pool connection info.```\nWebsite: <https://asiapool.trade/>\nDefault port: `4554`\nDefault server: `miner.asiapool.trade`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://miner.asiapool.trade:4554 -u waller-addr.rig1 -p c=VTL```')
+                break;
+		case 'noto':
+                    msg.channel.send('```prolog\nNotoHash Pool connection info.```\nWebsite: <https://notohash.club/>\nDefault port: `4553`\nDefault server: `notohash.club`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://notohash.club:4553 -u WALLET_ADDRESS -p c=VTL```')
                 break;
                 default:
                     msg.channel.send('Unrecognized pool. Please check again.')
