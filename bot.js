@@ -24,9 +24,9 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-if (msg.content.substring(0, 1) === '?') {
-if (msg.webhookID === null) {
-if(msg.channel.name === 'bot-commands' || msg.channel.type === 'dm' || msg.member.roles.find('name', 'Vertical Team') || msg.member.roles.find('name', 'Vertical Admins') || msg.member.roles.find('name', 'Bot')){
+if(msg.content.substring(0, 1) === '?') {
+if(msg.webhookID === null) {
+if(msg.channel.name === 'bot-commands' || msg.channel.type === 'dm' || msg.member.roles.find('name', 'Vertical Team') || msg.member.roles.find('name', 'Vertical Admins') || msg.member.roles.find('name', 'Bot Developer')){
     var args = msg.content.substring(1).split(' ');
     var cmd = args[0];
     args = args.splice(1);
@@ -35,13 +35,13 @@ if(msg.channel.name === 'bot-commands' || msg.channel.type === 'dm' || msg.membe
         case 'netinfo':
             fetch('https://explorer.vertical.ovh/api/getdifficulty')
                 .then(res => res.json())
-                .then (json => current_diff = Math.floor(json*1000)/1000);
+                .then(json => current_diff = Math.floor(json*1000)/1000);
             fetch('https://explorer.vertical.ovh/api/tx/latest')
                 .then(res => res.json())
-                .then (json => current_block = json[0].blockHeight);    
+                .then(json => current_block = json[0].blockHeight);    
         	    fetch('https://explorer.vertical.ovh/api/getnetworkhashps')
                 .then(res => res.json())
-                .then (json => {switch (true){
+                .then(json => {switch (true){
                     case json >= Math.pow(10,12):
                         msg.channel.send('• Block Height •           **' + current_block +'**\n• Network Hashrate • **' + Math.floor(json/1000000000)/1000 + '** TH/s\n• Network Difficulty • **' + current_diff + '**')
                     break;
@@ -72,12 +72,12 @@ if(msg.channel.name === 'bot-commands' || msg.channel.type === 'dm' || msg.membe
         case 'hpow':
             fetch('https://explorer.vertical.ovh/api/getdifficulty')
                 .then(res => res.json())
-                .then (json => {switch (true) {
+                .then(json => {switch (true) {
                     case args[0]===undefined:
-                        msg.channel.send('Input your hashpower in Kh/s, like `?hpow 123`.')
+                        msg.channel.send('Input your hashpower in Mh/s, like `?hpow 123`.')
                     break;
                     case isNaN(args[0]):
-                        msg.channel.send('Input your hashpower in Kh/s, like `?hpow 123`.')
+                        msg.channel.send('Input your hashpower in Mh/s, like `?hpow 123`.')
                     break;
                     case args[0]==='0':
                         msg.channel.send('Value = 0? Why stress me. You are no miner.')
@@ -86,7 +86,7 @@ if(msg.channel.name === 'bot-commands' || msg.channel.type === 'dm' || msg.membe
                         msg.channel.send('Hashpower must be positive number')
                     break;
                     default:
-                        msg.channel.send('Current network difficulty is **'+ Math.floor(json*1000)/1000 + '**.\n' + 'A hashrate of **'+ args[0] + ' Kh/s** will get you approximately **' + Math.floor(args[0]/json*36*24/120)/1000 + ' VTL** per **hour** and **' + Math.floor(args[0]/json*36*24*24/120)/1000 + ' VTL** per **day** at current network difficulty.')
+                        msg.channel.send('Current network difficulty is **'+ Math.floor(json*1000)/1000 + '**.\n' + 'A hashrate of **'+ args[0] + ' Mh/s** will get you approximately **' + Math.floor(args[0]*1000/json*36*24/120)/1000 + ' VTL** per **hour** and **' + Math.floor(args[0]*1000/json*36*24*24/120)/1000 + ' VTL** per **day** at current network difficulty.')
                     break;
                                     }
                                });
@@ -94,12 +94,12 @@ if(msg.channel.name === 'bot-commands' || msg.channel.type === 'dm' || msg.membe
         case 'mninfo':
             fetch('https://explorer.vertical.ovh/api/masternodecount')
                 .then(res => res.json())
-                .then (json => msg.channel.send('• Total nodes•      **' + json.total + '**\n• Enabled nodes• **' + json.enabled + '**\n• Install Guide • <https://github.com/Dwigt007/VerticalMasternodeSetup>'));
+                .then(json => msg.channel.send('• Total nodes•      **' + json.total + '**\n• Enabled nodes• **' + json.enabled + '**\n• Install Guide • <https://github.com/Dwigt007/VerticalMasternodeSetup>'));
         break;
         case 'mnrewards':
             fetch('https://explorer.vertical.ovh/api/masternodecount')
                 .then(res => res.json())
-                .then (json => {switch (true) {
+                .then(json => {switch (true) {
                     case args[0]===undefined:
                         msg.channel.send('**1** masternode(s) will give you approximately **' + Math.floor(3600000*24/120*8/json.enabled)/1000 + ' VTL** per **day**.')
                     break;
@@ -122,18 +122,18 @@ if(msg.channel.name === 'bot-commands' || msg.channel.type === 'dm' || msg.membe
             switch (cmd1){
                 case undefined:
 //                    msg.channel.send('• **Stocks.Exchange** • <https://stocks.exchange/trade/VTL/BTC>\n• **Graviex** • <https://graviex.net/markets/vtlbtc>\n\nUse `!exchange stats` for additional info')
-                      msg.channel.send('_Here you can check all the links of the exchanges and some additional information when it will be available!_\n\nUse `!exchange stats` for additional info')    
+                      msg.channel.send('_Here you can check all the links of the exchanges and some additional information when it will be available!_\n\nUse `?exchange stats` for additional info')    
                 break;
                 case 'stats':
-                    fetch('https://stocks.exchange/api2/ticker')
-                        .then(res => res.json())
-                        .then(json => { if (json[fix].market_name != 'VTL_BTC'){
-                            for (i=0;i<json.length;i++){
-                            if (json[i].market_name == 'VTL_BTC') {fix=i; break;}}
-                                          }
+//                    fetch('https://stocks.exchange/api2/ticker')
+//                        .then(res => res.json())
+//                        .then(json => { if (json[fix].market_name != 'VTL_BTC'){
+//                           for (i=0;i<json.length;i++){
+//                            if (json[i].market_name == 'VTL_BTC') {fix=i; break;}}
+//                                          }
 //                            msg.channel.send('\n• Last price:  **' + json[fix].last +' BTC**\n• 24h Change:  **' + Math.floor((json[fix].last-json[fix].lastDayAgo)/json[fix].lastDayAgo*1000000)/10000 + '%**\n• 24h Max Buy:  **' + json[fix].ask + ' BTC**\n• 24h Min Sell:  **' + json[fix].bid + ' BTC**\n• 24h Volume:  **' + Math.floor(json[fix].vol*1000)/1000 +' AKA** | **' + Math.floor(json[fix].vol*json[fix].last*1000)/1000 + ' BTC**\n')
                               msg.channel.send('_Exchange stats when it will be available!_')
-                                      });
+//                                      });
                 break;
                 default:
                     msg.channel.send('Maybe you wanted to write `?exchange` or `?exchange stats`?')
@@ -164,7 +164,7 @@ if(msg.channel.name === 'bot-commands' || msg.channel.type === 'dm' || msg.membe
         case 'pool':
             switch (cmd1){
                 case undefined:
-                    msg.channel.send('-- `?pool bsod` | Bsod.pw <https://bsod.pw/>\n-- `?pool hive` | TheHIVE <https://hive.gulfcoastmining.com/>\n-- `?pool umin` | UMine <https://umine.org/>\n-- `?pool icem` | IceMining <https://icemining.ca/>\n-- `?pool arcp` | ArcPool <https://arcpool.com/>\n-- `?pool tank` | AltTank Mining <https://www.alttank.ca/>\n-- `?pool fish` | Shit.Fish <https://vtl.shit.fish/>\n-- `?pool crun` | BlockCruncher <https://blockcruncher.com/>\n-- `?pool angr` | Angry Pool <http://angrypool.com/>\n-- `?pool evil` | Private Evil <http://evil.ru/>\n-- `?pool gosc` | Gos.cx <https://gos.cx/>\n-- `?pool cryp` | CryptoPool Party <https://cryptopool.party/>\n-- `?pool asia` | Asia Pool <https://asiapool.trade/>\n-- `?pool noto` | NotoHash <https://notohash.club/>\n\nUse `?pool [POOL]` for specific mining details\n_Please spread the hashpower across all pools._')
+                    msg.channel.send('-- `?pool bsod` | Bsod.pw <https://bsod.pw/>\n-- `?pool hive` | TheHIVE <https://hive.gulfcoastmining.com/>\n-- `?pool umin` | UMine <https://umine.org/>\n-- `?pool icem` | IceMining <https://icemining.ca/>\n-- `?pool arcp` | ArcPool <https://arcpool.com/>\n-- `?pool tank` | AltTank Mining <https://www.alttank.ca/>\n-- `?pool fish` | Shit.Fish <https://vtl.shit.fish/>\n-- `?pool crun` | BlockCruncher <https://blockcruncher.com/>\n-- `?pool angr` | Angry Pool <http://angrypool.com/>\n-- `?pool evil` | Private Evil <http://evil.ru/>\n-- `?pool gosc` | Gos.cx <https://gos.cx/>\n-- `?pool cryp` | CryptoPool Party <https://cryptopool.party/>\n-- `?pool asia` | Asia Pool <https://asiapool.trade/>\n-- `?pool noto` | NotoHash <https://notohash.club/>\n-- `?pool coin` | COIN-Miners <https://coin-miners.club/>\n-- `?pool powr` | Power Mining <https://www.powermining.pw/>\n-- `?pool harv` | CoinHarvest <https://pool.coinharvest.io/>\n-- `?pool jgpl` | MiningJGPool <https://miningjgpool.ovh/>\n-- `?pool weed` | Weekend Pool <http://weekendpool.com/>\n\nUse `?pool [POOL]` for specific mining details\n_Please spread the hashpower across all pools._')
                 break;
                 case 'bsod':
                     msg.channel.send('```prolog\nTheBSODPool connection info.```\nWebsite: <https://bsod.pw/>\nDefault port: `2286`\nEU server: `eu.bsod.pw`\nUS server: `us.bsod.pw`\nAsia server: `asia.bsod.pw`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://eu.bsod.pw:2286 -u WALLET.rig -p c=VTL```')
@@ -205,8 +205,23 @@ if(msg.channel.name === 'bot-commands' || msg.channel.type === 'dm' || msg.membe
                 case 'asia':
                     msg.channel.send('```prolog\nAsia Pool connection info.```\nWebsite: <https://asiapool.trade/>\nDefault port: `4554`\nDefault server: `miner.asiapool.trade`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://miner.asiapool.trade:4554 -u waller-addr.rig1 -p c=VTL```')
                 break;
-		case 'noto':
+                case 'noto':
                     msg.channel.send('```prolog\nNotoHash Pool connection info.```\nWebsite: <https://notohash.club/>\nDefault port: `4553`\nDefault server: `notohash.club`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://notohash.club:4553 -u WALLET_ADDRESS -p c=VTL```')
+                break;
+                case 'coin':
+                    msg.channel.send('```prolog\nCOIN-Miners Pool connection info.```\nWebsite: <https://coin-miners.club/>\nDefault port: `4553`\nDefault server: `coin-miners.club`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://coin-miners.club:4553 -u WALLET_ADDRESS -p c=VTL```')
+                break;
+                case 'powr':
+                    msg.channel.send('```prolog\nPower Mining Pool connection info.```\nWebsite: <https://www.powermining.pw/>\nDefault port: `4553`\nDefault server: `pool.powermining.pw`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://pool.powermining.pw:4553 -u <WALLET ADDRESS> -p c=VTL\nsgminer -k lyra2z -o stratum+tcp://pool.powermining.pw:4553 -u <WALLET ADDRESS> -p c=VTL```')
+                break;
+                case 'harv':
+                    msg.channel.send('```prolog\nCoinHarvest Pool connection info.```\nWebsite: <https://pool.coinharvest.io/>\nDefault port: `4554`\nDefault server: `pool.coinharvest.io`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://pool.coinharvest.io:3554 -u WALLET_ADDRESS -p c=VTL```')
+                break;
+                case 'jgpl':
+                    msg.channel.send('```prolog\nMiningJGPool connection info.```\nWebsite: <https://miningjgpool.ovh/>\nDefault port: `4553`\nDefault server: `miningjgpool.ovh`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://miningjgpool.ovh:4553 -u YOUR_WALLET_ADDRESS -p c=VTL```')
+                break;
+                case 'weed':
+                    msg.channel.send('```prolog\nWeekend Pool connection info.```\nWebsite: <http://weekendpool.com/>\nDefault port: `4553`\nDefault server: `weekendpool.com`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://weekendpool.com:4553 -u YOUR_WALLET_ADDRESS -p c=VTL```')
                 break;
                 default:
                     msg.channel.send('Unrecognized pool. Please check again.')
