@@ -85,7 +85,7 @@ client.on('message', msg => {
               msg.channel.send('Hashpower must be positive number');
               break;
             default:
-              msg.channel.send('Current network difficulty is **'+ Math.floor(json*1000)/1000 + '**.\n' + 'A hashrate of **'+ args[0] + ' Mh/s** will get you approximately **' + Math.floor(args[0]*1000/json*36*24/120)/1000 + ' VTL** per **hour** and **' + Math.floor(args[0]*1000/json*36*24*24/120)/1000 + ' VTL** per **day** at current network difficulty.');
+              msg.channel.send('Current network difficulty is **'+ Math.floor(json*1000)/1000 + '**.\n' + 'A hashrate of **'+ args[0] + ' Mh/s** will get you approximately **' + Math.floor(args[0]*3000/json*36*24/120)/1000 + ' VTL** per **hour** and **' + Math.floor(args[0]*3000/json*36*24*24/120)/1000 + ' VTL** per **day** at current network difficulty.');
               break;
             }
             });
