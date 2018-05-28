@@ -120,7 +120,7 @@ client.on('message', msg => {
         case 'exchange':
           switch (cmd1){
           case undefined:
-            msg.channel.send('-- `?exchange grav` **Graviex** • <https://graviex.net/markets/vtlbtc>\n\nUse `?exchange [EXCHANGE]` for additional info');
+            msg.channel.send('-- `?exchange grav` | **Graviex** • <https://graviex.net/markets/vtlbtc>\n\nUse `?exchange [EXCHANGE]` for additional info');
             break;
           case 'grav':
             fetch('https://graviex.net/api/v2/tickers/vtlbtc')
