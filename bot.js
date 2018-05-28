@@ -1,9 +1,9 @@
 const Discord = require('discord.js');
 const fetch = require('node-fetch');
 const client = new Discord.Client();
-var auth = require('./auth.json');
-var current_block = 1;
-var current_diff = 1;
+const auth = require('./auth.json');
+let current_block = 1;
+let current_diff = 1;
 
 /*function timeConverter(UNIX_timestamp){
   var a = new Date(UNIX_timestamp * 1000);
@@ -42,31 +42,31 @@ client.on('message', msg => {
             .then(res => res.json())
             .then(json => {switch (true){
             case json >= Math.pow(10,12):
-              msg.channel.send('• Block Height •           **' + current_block +'**\n• Network Hashrate • **' + Math.floor(json/1000000000)/1000 + '** TH/s\n• Network Difficulty • **' + current_diff + '**');
+              msg.channel.send(`• Block Height •           **${current_block}**\n• Network Hashrate • **${Math.floor(json/1000000000)/1000}** TH/s\n• Network Difficulty • **${current_diff}**`);
               break;
             case json >= Math.pow (10,9):
-              msg.channel.send('• Block Height •           **' + current_block +'**\n• Network Hashrate • **' + Math.floor(json/1000000)/1000 + '** GH/s\n• Network Difficulty • **' + current_diff + '**');
+              msg.channel.send(`• Block Height •           **${current_block}**\n• Network Hashrate • **${Math.floor(json/1000000)/1000}** GH/s\n• Network Difficulty • **${current_diff}**`);
               break;
             case json >= Math.pow (10,6):
-              msg.channel.send('• Block Height •           **' + current_block +'**\n• Network Hashrate • **' + Math.floor(json/1000)/1000 + '** MH/s\n• Network Difficulty • **' + current_diff + '**');
+              msg.channel.send(`• Block Height •           **${current_block}**\n• Network Hashrate • **${Math.floor(json/1000)/1000}** MH/s\n• Network Difficulty • **${current_diff}**`);
               break;
             case json >= Math.pow (10,3):
-              msg.channel.send('• Block Height •           **' + current_block +'**\n• Network Hashrate • **' + Math.floor(json)/1000 + '** KH/s\n• Network Difficulty • **' + current_diff + '**');
+              msg.channel.send(`• Block Height •           **${current_block}**\n• Network Hashrate • **${Math.floor(json)/1000}** KH/s\n• Network Difficulty • **${current_diff}**`);
               break;
             default:
-              msg.channel.send('• Block Height •           **' + current_block +'**\n• Network Hashrate • **' + Math.floor(json*1000)/1000 + '** H/s\n• Network Difficulty • **' + current_diff + '**');
+              msg.channel.send(`• Block Height •           **${current_block}**\n• Network Hashrate • **${Math.floor(json*1000)/1000}** H/s\n• Network Difficulty • **${current_diff}**`);
               break;
             }
             });
           break;
         case 'help':
-          msg.channel.send('-- `?help` | This is your help.\n-- `?links` | Useful links.\n-- `?netinfo` | Show current network stats.\n-- `?mninfo` | Masternodes info.\n-- `?hpow [your Kh/s]` | Approximate VTL per hour/day.\n-- `?mnrewards [no. of nodes]` | Approximate VTL reward per day.\n-- `?exchange` | Current Verticalcoin exchanges.\n-- `?pool [POOL]` | Verticalcoin mining pools [_connection info_].\n-- `?about` | Info about this bot.');
+          msg.channel.send('-- `?help` | This is your help.\n-- `?links` | Useful links.\n-- `?netinfo` | Show current network stats.\n-- `?mninfo` | Masternodes info.\n-- `?hpow [your Kh/s]` | Approximate VTL per hour/day.\n-- `?mnrewards [no. of nodes]` | Approximate VTL reward per day.\n-- `?exchange [EXCHANGE]` | Current Verticalcoin exchanges [_exchange info_].\n-- `?pool [POOL]` | Verticalcoin mining pools [_connection info_].\n-- `?about` | Info about this bot.');
           break;
         case 'links':
           msg.channel.send('**Vertical Website** • <http://verticalcoin.io/>\n**Vertical Announcement** • <https://bitcointalk.org/index.php?topic=3921947>\n**Vertical Whitepaper** • <http://verticalcoin.io/Vertical-Whitepaper.pdf>\n**Vertical Github** • <https://github.com/verticalcoin/>\n**Vertical Wallets** • <https://github.com/verticalcoin/verticalcoin/releases>\n**Vertical Block Explorer** • <https://explorer.vertical.ovh/#/>\n**Vertical Community** • <https://twitter.com/vtlcoin/> <https://www.reddit.com/r/vtlcoin/> <https://www.youtube.com/channel/UC9sWnlAVxjAZyfCIxjolQqw/>');
           break;
         case 'about':
-          msg.channel.send('• Version 1.0\n• Author: ciripel _(Discord: Amitabha#0517)_\n• Source Code: <https://github.com/ciripel/Vertical-BOT>\n• _This bot idea was born and grew with <https://akroma.io/>._');
+          msg.channel.send('• Version 1.1\n• Author: ciripel _(Discord: Amitabha#0517)_\n• Source Code: <https://github.com/ciripel/Vertical-BOT>\n• _This bot idea was born and grew with <https://akroma.io/>._');
           break;
         case 'hpow':
           fetch('https://explorer.vertical.ovh/api/getdifficulty')
@@ -82,10 +82,10 @@ client.on('message', msg => {
               msg.channel.send('Value = 0? Why stress me. You are no miner.');
               break;
             case args[0]<0:
-              msg.channel.send('Hashpower must be positive number');
+              msg.channel.send('Hashpower must be positive number, don\'t you think?:thinking:');
               break;
             default:
-              msg.channel.send('Current network difficulty is **'+ Math.floor(json*1000)/1000 + '**.\n' + 'A hashrate of **'+ args[0] + ' Mh/s** will get you approximately **' + Math.floor(args[0]*3000/json*36*24/120)/1000 + ' VTL** per **hour** and **' + Math.floor(args[0]*3000/json*36*24*24/120)/1000 + ' VTL** per **day** at current network difficulty.');
+              msg.channel.send(`Current network difficulty is **${Math.floor(json*1000)/1000}**.\nA hashrate of **${args[0]} Mh/s** will get you approximately **${Math.floor(args[0]*3000/json*36*24/120)/1000} VTL** per **hour** and **${Math.floor(args[0]*3000/json*36*24*24/120)/1000} VTL** per **day** at current network difficulty.`);
               break;
             }
             });
@@ -93,14 +93,14 @@ client.on('message', msg => {
         case 'mninfo':
           fetch('https://explorer.vertical.ovh/api/masternodecount')
             .then(res => res.json())
-            .then(json => msg.channel.send('• Total nodes•      **' + json.total + '**\n• Enabled nodes• **' + json.enabled + '**\n• Install Guide • <https://github.com/Dwigt007/VerticalMasternodeSetup>'));
+            .then(json => msg.channel.send(`• Total nodes•      **${json.total}**\n• Enabled nodes• **${json.enabled}**\n• Install Guide • <https://github.com/Dwigt007/VerticalMasternodeSetup>`));
           break;
         case 'mnrewards':
           fetch('https://explorer.vertical.ovh/api/masternodecount')
             .then(res => res.json())
             .then(json => {switch (true) {
             case args[0]===undefined:
-              msg.channel.send('**1** masternode(s) will give you approximately **' + Math.floor(3600000*24/120*8/json.enabled)/1000 + ' VTL** per **day**.');
+              msg.channel.send(`**1** masternode(s) will give you approximately **${Math.floor(3600000*24/120*8/json.enabled)/1000} VTL** per **day**.`);
               break;
             case isNaN(args[0]):
               msg.channel.send('Input the the number of nodes, like `?mnrewards 1`.');
@@ -109,10 +109,10 @@ client.on('message', msg => {
               msg.channel.send('0 masternodes will give u 0 coins... Really?');
               break;
             case args[0]<0:
-              msg.channel.send('Yup no masternodes for you friend.');
+              msg.channel.send('Yup no masternodes for you friend. Looks like someone else got your masternodes.');
               break;
             default:
-              msg.channel.send('**'+args[0]+'** masternode(s) will give you approximately **' + Math.floor(3600000*24/120*8/json.enabled*args[0])/1000 + ' VTL** per **day**.');
+              msg.channel.send(`**${args[0]}** masternode(s) will give you approximately **${Math.floor(3600000*24/120*8/json.enabled*args[0])/1000} VTL** per **day**`);
               break;
             }
             });
@@ -120,22 +120,17 @@ client.on('message', msg => {
         case 'exchange':
           switch (cmd1){
           case undefined:
-            //                    msg.channel.send('• **Stocks.Exchange** • <https://stocks.exchange/trade/VTL/BTC>\n• **Graviex** • <https://graviex.net/markets/vtlbtc>\n\nUse `!exchange stats` for additional info')
-            msg.channel.send('_Here you can check all the links of the exchanges and some additional information when it will be available!_\n\nUse `?exchange stats` for additional info');
+            msg.channel.send('-- `?exchange grav` **Graviex** • <https://graviex.net/markets/vtlbtc>\n\nUse `?exchange [EXCHANGE]` for additional info');
             break;
-          case 'stats':
-            //                    fetch('https://stocks.exchange/api2/ticker')
-            //                        .then(res => res.json())
-            //                        .then(json => { if (json[fix].market_name != 'VTL_BTC'){
-            //                           for (i=0;i<json.length;i++){
-            //                            if (json[i].market_name == 'VTL_BTC') {fix=i; break;}}
-            //                                          }
-            //                            msg.channel.send('\n• Last price:  **' + json[fix].last +' BTC**\n• 24h Change:  **' + Math.floor((json[fix].last-json[fix].lastDayAgo)/json[fix].lastDayAgo*1000000)/10000 + '%**\n• 24h Max Buy:  **' + json[fix].ask + ' BTC**\n• 24h Min Sell:  **' + json[fix].bid + ' BTC**\n• 24h Volume:  **' + Math.floor(json[fix].vol*1000)/1000 +' AKA** | **' + Math.floor(json[fix].vol*json[fix].last*1000)/1000 + ' BTC**\n')
-            msg.channel.send('_Exchange stats when it will be available!_');
-            //                                      });
+          case 'grav':
+            fetch('https://graviex.net/api/v2/tickers/vtlbtc')
+              .then(res => res.json())
+              .then(json =>
+                msg.channel.send(`\n• Last price:  **${json.ticker.last} BTC**\n• 24h Change:  **${Math.floor(json.ticker.change*1000)/1000}%**\n• 24h Max Buy:  **${json.ticker.high} BTC**\n• 24h Min Sell:  **${json.ticker.low} BTC**\n• 24h Volume:  **${Math.floor(json.ticker.vol*1000)/1000} VTL** | **${Math.floor(json.ticker.volbtc*1000)/1000} BTC**\n`)
+              );
             break;
           default:
-            msg.channel.send('Maybe you wanted to write `?exchange` or `?exchange stats`?');
+            msg.channel.send('Maybe you wanted to write `?exchange` or `?exchange [EXCHANGE]`?');
             break;}
           break;
         /*  case 'vtlusd':
