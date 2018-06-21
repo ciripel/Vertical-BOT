@@ -4,6 +4,9 @@ const client = new Discord.Client();
 const auth = require('./auth.json');
 let current_block = 1;
 let current_diff = 1;
+let total_supply = 1;
+let fix = 0;
+let i = 0;
 
 /*function timeConverter(UNIX_timestamp){
   var a = new Date(UNIX_timestamp * 1000);
@@ -60,13 +63,13 @@ client.on('message', msg => {
             });
           break;
         case 'help':
-          msg.channel.send('-- `?help` | This is your help.\n-- `?links` | Useful links.\n-- `?netinfo` | Show current network stats.\n-- `?mninfo` | Masternodes info.\n-- `?hpow [your Kh/s]` | Approximate VTL per hour/day.\n-- `?mnrewards [no. of nodes]` | Approximate VTL reward per day.\n-- `?exchange [EXCHANGE]` | Current Verticalcoin exchanges [_exchange info_].\n-- `?pool [POOL]` | Verticalcoin mining pools [_connection info_].\n-- `?about` | Info about this bot.');
+          msg.channel.send('-- `?help` | This is your help.\n-- `?links` | Useful links.\n-- `?netinfo` | Show current network stats.\n-- `?mninfo` | Masternodes info.\n-- `?hpow [your Kh/s]` | Approximate VTL per hour/day.\n-- `?mnrewards [no. of nodes]` | Approximate VTL reward per day.\n-- `?vtlusd [amount]` | Current price in USD.\n-- `?coininfo` | Show coin info.\n-- `?exchange [EXCHANGE]` | Current Verticalcoin exchanges [_exchange info_].\n-- `?pool [POOL]` | Verticalcoin mining pools [_connection info_].\n-- `?about` | Info about this bot.');
           break;
         case 'links':
           msg.channel.send('**Vertical Website** • <http://verticalcoin.io/>\n**Vertical Announcement** • <https://bitcointalk.org/index.php?topic=3921947>\n**Vertical Whitepaper** • <http://verticalcoin.io/Vertical-Whitepaper.pdf>\n**Vertical Github** • <https://github.com/verticalcoin/>\n**Vertical Wallets** • <https://github.com/verticalcoin/verticalcoin/releases>\n**Vertical Block Explorer** • <https://explorer.vertical.ovh/#/>\n**Vertical Community** • <https://twitter.com/vtlcoin/> <https://www.reddit.com/r/vtlcoin/> <https://www.youtube.com/channel/UC9sWnlAVxjAZyfCIxjolQqw/>');
           break;
         case 'about':
-          msg.channel.send('• Version 1.1\n• Author: ciripel _(Discord: Amitabha#0517)_\n• Source Code: <https://github.com/ciripel/Vertical-BOT>\n• _This bot idea was born and grew with <https://akroma.io/>._');
+          msg.channel.send('• Version 1.2\n• Author: ciripel _(Discord: Amitabha#0517)_\n• Source Code: <https://github.com/ciripel/Vertical-BOT>\n• _This bot idea was born and grew with <https://akroma.io/>._');
           break;
         case 'hpow':
           fetch('https://explorer.vertical.ovh/api/getdifficulty')
@@ -120,7 +123,7 @@ client.on('message', msg => {
         case 'exchange':
           switch (cmd1){
           case undefined:
-            msg.channel.send('-- `?exchange grav` | **Graviex** • <https://graviex.net/markets/vtlbtc>\n\nUse `?exchange [EXCHANGE]` for additional info');
+            msg.channel.send('-- `?exchange grav` | **Graviex** • <https://graviex.net/markets/vtlbtc>\n-- `?exchange brid` | **CryptoBridge** • <https://wallet.crypto-bridge.org/market/BRIDGE.VTL_BRIDGE.BTC>\n\nUse `?exchange [EXCHANGE]` for additional info');
             break;
           case 'grav':
             fetch('https://graviex.net/api/v2/tickers/vtlbtc')
@@ -129,36 +132,54 @@ client.on('message', msg => {
                 msg.channel.send(`\n• Last price:  **${json.ticker.last} BTC**\n• 24h Change:  **${Math.floor(json.ticker.change*1000)/1000}%**\n• 24h Max Buy:  **${json.ticker.high} BTC**\n• 24h Min Sell:  **${json.ticker.low} BTC**\n• 24h Volume:  **${Math.floor(json.ticker.vol*1000)/1000} VTL** | **${Math.floor(json.ticker.volbtc*1000)/1000} BTC**\n`)
               );
             break;
+          case 'brid':
+            fetch('https://api.crypto-bridge.org/api/v1/ticker')
+              .then(res => res.json())
+              .then(json => { if (json[fix].id != 'VTL_BTC'){
+                for (i=0;i<json.length;i++){
+                  if (json[i].id == 'VTL_BTC') {fix=i; break;}}
+              }
+              msg.channel.send(`\n• Last price:  **${json[fix].last} BTC**\n• 24h Max Buy:  **${json[fix].ask} BTC**\n• 24h Min Sell:  **${json[fix].bid} BTC**\n• 24h Volume:  **${Math.floor(json[fix].volume*1000)/1000} BTC**\n`);
+              });
+            break;
           default:
             msg.channel.send('Maybe you wanted to write `?exchange` or `?exchange [EXCHANGE]`?');
             break;}
           break;
-        /*  case 'vtlusd':
-            fetch('https://api.vertical.io/prices')
+        case 'vtlusd':
+          fetch('https://explorer.vertical.ovh/api/coin/')
             .then(res => res.json())
             .then (json => {switch(true) {
-                case args[0]===undefined:
-                    msg.channel.send('_Today the approximate price of ***1 VTL*** is ***' + json.usdRaw +'$*** and yesterday was ***' + json.usdDayAgoRaw + '$***._')
-                break;
-                case isNaN(args[0]):
-                    msg.channel.send('_Today the approximate price of ***1 VTL*** is ***' + json.usdRaw +'$*** and yesterday was ***' + json.usdDayAgoRaw + '$***._')
-                break;
-                case args[0]==='0':
-                    msg.channel.send('Welcome young one! We have all started with **0 VTL** zilions of aeons ago!')
-                break;
-                case args[0]<0:
-                    msg.channel.send('Hmm! Yup! I feel sorry for you! You owe **VTL**... I feel your pain friend!')
-                break;
-                default:
-                    msg.channel.send('**' + args[0] +' VTL** = **' + json.usdRaw*args[0] + '$**\n _Today the approximate price of ***1 VTL*** is ***' + json.usdRaw +'$*** and yesterday was ***' + json.usdDayAgoRaw + '$***._')
-                break;
-                               }
-                           });
-        break;*/
+            case args[0]===undefined:
+              msg.channel.send(`_Today the approximate price of ***1 VTL*** is ***${Math.floor(json.usd*1000)/1000}$.***_`);
+              break;
+            case isNaN(args[0]):
+              msg.channel.send(`_Today the approximate price of ***1 VTL*** is ***${Math.floor(json.usd*1000)/1000}$.***_`);
+              break;
+            case args[0]==='0':
+              msg.channel.send('Welcome young one! We have all started with **0 VTL** zilions of aeons ago!');
+              break;
+            case args[0]<0:
+              msg.channel.send('Hmm! Yup! I feel sorry for you! You owe **VTL**... I feel your pain friend!');
+              break;
+            default:
+              msg.channel.send(`**${args[0]} VTL** = **${Math.floor(json.usd*args[0]*1000/1000)}$**\n_Today the approximate price of ***1 VTL*** is ***${Math.floor(json.usd*1000)/1000}$***_`);
+              break;
+            }
+            });
+          break;
+        case 'coininfo':
+          fetch('https://explorer.vertical.ovh/api/supply')
+            .then(res => res.json())
+            .then(json => total_supply = json.t);
+          fetch('https://explorer.vertical.ovh/api/coin/')
+            .then(res => res.json())
+            .then(json => msg.channel.send(`• Current Price•          **${json.btc} BTC** | **${Math.floor(json.usd*1000)/1000}$**\n• Market Cap•             **${Math.floor(json.usd*total_supply*1000)/1000}$**\n• Circulating Supply• **${Math.floor(total_supply)} VTL**\n• Locked Coins•          **${3750*(json.mnsOn+json.mnsOff)} VTL**`));
+          break;
         case 'pool':
           switch (cmd1){
           case undefined:
-            msg.channel.send('-- `?pool bsod` | Bsod.pw <https://bsod.pw/>\n-- `?pool hive` | TheHIVE <https://hive.gulfcoastmining.com/>\n-- `?pool umin` | UMine <https://umine.org/>\n-- `?pool icem` | IceMining <https://icemining.ca/>\n-- `?pool arcp` | ArcPool <https://arcpool.com/>\n-- `?pool tank` | AltTank Mining <https://www.alttank.ca/>\n-- `?pool fish` | Shit.Fish <https://vtl.shit.fish/>\n-- `?pool crun` | BlockCruncher <https://blockcruncher.com/>\n-- `?pool angr` | Angry Pool <http://angrypool.com/>\n-- `?pool evil` | Private Evil <http://evil.ru/>\n-- `?pool gosc` | Gos.cx <https://gos.cx/>\n-- `?pool cryp` | CryptoPool Party <https://cryptopool.party/>\n-- `?pool asia` | Asia Pool <https://asiapool.trade/>\n-- `?pool noto` | NotoHash <https://notohash.club/>\n-- `?pool coin` | COIN-Miners <https://coin-miners.club/>\n-- `?pool powr` | Power Mining <https://www.powermining.pw/>\n-- `?pool harv` | CoinHarvest <https://pool.coinharvest.io/>\n-- `?pool jgpl` | MiningJGPool <https://miningjgpool.ovh/>\n-- `?pool weed` | Weekend Pool <http://weekendpool.com/>\n-- `?pool futu` | Future Coins <https://futurecoins.club/>\n\nUse `?pool [POOL]` for specific mining details\n_Please spread the hashpower across all pools._');
+            msg.channel.send('-- `?pool bsod` | Bsod.pw <https://bsod.pw/>\n-- `?pool hive` | TheHIVE <https://hive.gulfcoastmining.com/>\n-- `?pool umin` | UMine <https://umine.org/>\n-- `?pool icem` | IceMining <https://icemining.ca/>\n-- `?pool arcp` | ArcPool <https://arcpool.com/>\n-- `?pool tank` | AltTank Mining <https://www.alttank.ca/>\n-- `?pool fish` | Shit.Fish <https://vtl.shit.fish/>\n-- `?pool crun` | BlockCruncher <https://blockcruncher.com/>\n-- `?pool angr` | Angry Pool <http://angrypool.com/>\n-- `?pool evil` | Private Evil <http://evil.ru/>\n-- `?pool gosc` | Gos.cx <https://gos.cx/>\n-- `?pool cryp` | CryptoPool Party <https://cryptopool.party/>\n-- `?pool asia` | Asia Pool <https://asiapool.trade/>\n-- `?pool noto` | NotoHash <https://notohash.club/>\n-- `?pool coin` | COIN-Miners <https://coin-miners.club/>\n-- `?pool powr` | Power Mining <https://www.powermining.pw/>\n-- `?pool harv` | CoinHarvest <https://pool.coinharvest.io/>\n-- `?pool jgpl` | MiningJGPool <https://miningjgpool.ovh/>\n-- `?pool weed` | Weekend Pool <http://weekendpool.com/>\n-- `?pool futu` | Future Coins <https://futurecoins.club/>\n-- `?pool mktp` | MKTECH Pools <http://mktechpools.xyz/>\n\nUse `?pool [POOL]` for specific mining details\n_Please spread the hashpower across all pools._');
             break;
           case 'bsod':
             msg.channel.send('```prolog\nTheBSODPool connection info.```\nWebsite: <https://bsod.pw/>\nDefault port: `2286`\nEU server: `eu.bsod.pw`\nUS server: `us.bsod.pw`\nAsia server: `asia.bsod.pw`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://eu.bsod.pw:2286 -u WALLET.rig -p c=VTL```');
@@ -219,6 +240,9 @@ client.on('message', msg => {
             break;
           case 'futu':
             msg.channel.send('```prolog\nFuture Coins Pool connection info.```\nWebsite: <https://futurecoins.club/>\nDefault port: `4553`\nDefault server: `futurecoins.club`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://futurecoins.club:4553 -u YOUR_WALLET_ADDRESS -p c=VTL```');
+            break;
+          case 'mktp':
+            msg.channel.send('```prolog\nMKTECH Pools connection info.```\nWebsite: <http://mktechpools.xyz/>\nDefault port: `4556`\nDefault server: `mktechpools.xyz`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://mktechpools.xyz:4556 -u WALLET_ADDRESS -p c=VTL```');
             break;
           default:
             msg.channel.send('Unrecognized pool. Please check again.');
