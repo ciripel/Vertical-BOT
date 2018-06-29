@@ -179,70 +179,64 @@ client.on('message', msg => {
         case 'pool':
           switch (cmd1){
           case undefined:
-            msg.channel.send('-- `?pool bsod` | Bsod.pw <https://bsod.pw/>\n-- `?pool hive` | TheHIVE <https://hive.gulfcoastmining.com/>\n-- `?pool umin` | UMine <https://umine.org/>\n-- `?pool icem` | IceMining <https://icemining.ca/>\n-- `?pool arcp` | ArcPool <https://arcpool.com/>\n-- `?pool tank` | AltTank Mining <https://www.alttank.ca/>\n-- `?pool fish` | Shit.Fish <https://vtl.shit.fish/>\n-- `?pool crun` | BlockCruncher <https://blockcruncher.com/>\n-- `?pool angr` | Angry Pool <http://angrypool.com/>\n-- `?pool evil` | Private Evil <http://evil.ru/>\n-- `?pool gosc` | Gos.cx <https://gos.cx/>\n-- `?pool cryp` | CryptoPool Party <https://cryptopool.party/>\n-- `?pool asia` | Asia Pool <https://asiapool.trade/>\n-- `?pool noto` | NotoHash <https://notohash.club/>\n-- `?pool coin` | COIN-Miners <https://coin-miners.club/>\n-- `?pool powr` | Power Mining <https://www.powermining.pw/>\n-- `?pool harv` | CoinHarvest <https://pool.coinharvest.io/>\n-- `?pool jgpl` | MiningJGPool <https://miningjgpool.ovh/>\n-- `?pool weed` | Weekend Pool <http://weekendpool.com/>\n-- `?pool futu` | Future Coins <https://futurecoins.club/>\n-- `?pool mktp` | MKTECH Pools <http://mktechpools.xyz/>\n\nUse `?pool [POOL]` for specific mining details\n_Please spread the hashpower across all pools._');
+            msg.channel.send('-- `?pool mktp` | MKTECH Pools <http://mktechpools.xyz/>\n-- `?pool more` | MinerMore <https://minermore.com/>\n-- `?pool vetm` | Vet Mining Pool <https://vetmining.com/>\n-- `?pool roas` | RoastedGarlicPool <http://roastedgarlicpool.fun/>\n-- `?pool blaz` | Blazepool <http://blazepool.com/>\n-- `?pool bsod` | Bsod.pw <https://bsod.pw/>\n-- `?pool gosc` | Gos.cx <https://gos.cx/>\n-- `?pool umin` | UMine <https://umine.org/>\n-- `?pool arcp` | ArcPool <https://arcpool.com/>\n-- `?pool angr` | Angry Pool <http://angrypool.com/>\n-- `?pool hive` | QueenBee HIVE <https://hive.gulfcoastmining.com/>\n-- `?pool rush` | Rush Hour Mining <http://rushhourmining.com/>\n-- `?pool yeti` | Yeti Mining <https://yetimining.net/>\n-- `?pool zpol` | Zpool <https://zpool.ca/>\n-- `?pool zerg` | Zergpool <https://zergpool.com/>\n-- `?pool cvmp` | CVM pool <https://cvmpool.pw/>\n-- `?pool fair` | Fair Mine <https://fairmine.pro/>\n-- `?pool powr` | Power Mining <https://www.powermining.pw/>\n-- `?pool rare` | RarePool <http://rarepool.com/>\n\nUse `?pool [POOL]` for specific mining details\n_Please spread the hashpower across all pools._');
+            break;
+          case 'mktp':
+            msg.channel.send('```prolog\nMKTECH Pools connection info.```\nWebsite: <http://mktechpools.xyz/>\nDefault port: `4556`\nDefault server: `mktechpools.xyz`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://mktechpools.xyz:4556 -u WALLET_ADDRESS -p c=VTL```');
+            break;
+          case 'more':
+            msg.channel.send('```prolog\nMinerMore Pool connection info.```\nWebsite: <https://minermore.com/>\nDefault port: `3737`\nDefault server: `pool.minermore.com`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://pool.minermore.com:3737 -u WALLET_ADDRESS -p c=VTL```');
+            break;
+          case 'vetm':
+            msg.channel.send('```prolog\nVet Mining Pool connection info.```\nWebsite: <https://vetmining.com/>\nDefault port: `4553`\nDefault server: `vetmining.com`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://vetmining.com:4553 -u WALLET_ADDRESS -p c=VTL```');
+            break;
+          case 'roas':
+            msg.channel.send('```prolog\nRoastedGarlicPool connection info.```\nWebsite: <http://roastedgarlicpool.fun/>\nDefault port: `4553`\nDefault server: `roastedgarlicpool.fun`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://roastedgarlicpool.fun:4553 -u <WALLET_ADDRESS> -p c=VTL```');
+            break;
+          case 'blaz':
+            msg.channel.send('```prolog\nBlazepool connection info.```\nWebsite: <http://blazepool.com/>\nDefault port: `4553`\nDefault server: `lyra2z.mine.blazepool.com`\n\nPlease check the pool site to download a miner for this autoexchange mining pool.\n**Examples:**\n```-o stratum+tcp://lyra2z.mine.blazepool.com:4553 -u <WALLET_ADDRESS> -p c=VTL,mc=VTL```');
             break;
           case 'bsod':
             msg.channel.send('```prolog\nTheBSODPool connection info.```\nWebsite: <https://bsod.pw/>\nDefault port: `2286`\nEU server: `eu.bsod.pw`\nUS server: `us.bsod.pw`\nAsia server: `asia.bsod.pw`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://eu.bsod.pw:2286 -u WALLET.rig -p c=VTL```');
             break;
-          case 'hive':
-            msg.channel.send('```prolog\nTheHIVE Pool connection info.```\nWebsite: <https://hive.gulfcoastmining.com/>\nDefault port: `4559`\nUS server: `hive.gulfcoastmining.com`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://hive.gulfcoastmining.com:4559 -u WALLETADDRESS.rigname -p c=VTL\nsgminer -k lyra2z -o stratum+tcp://hive.gulfcoastmining.com:4559 -u WALLETADDRESS.rigname -p c=VTL```');
+          case 'gosc':
+            msg.channel.send('```prolog\nGos.Cx Pool connection info.```\nWebsite: <https://gos.cx/>\nDefault port: `4554`\nDefault server: `stratum.gos.cx`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://stratum.gos.cx:4554 -u <WALLETID>.rig1 -p c=VTL```');
             break;
           case 'umin':
             msg.channel.send('```prolog\nUMine Pool connection info.```\nWebsite: <https://umine.org/>\nDefault port: `4553`\nDefault server: `s.umine.org`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://s.umine.org:4553 -u WALLET_ADDRESS -p c=VTL -R 3```');
             break;
-          case 'icem':
-            msg.channel.send('```prolog\nIceMining Pool connection info.```\nWebsite: <https://icemining.ca/>\nDefault port: `4554`\nDefault server: `mine.icemining.ca`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://mine.icemining.ca:4554 -u <WALLET ADDRESS> -p c=VTL```');
-            break;
           case 'arcp':
             msg.channel.send('```prolog\nArcPool connection info.```\nWebsite: <https://arcpool.com/>\nDefault port: `1728`\nEU server: `eu1.arcpool.com`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://eu1.arcpool.com:1728 -u <WALLET_ADDRESS> -p c=VTL```');
-            break;
-          case 'tank':
-            msg.channel.send('```prolog\nAltTank Mining Pool connection info.```\nWebsite: <https://www.alttank.ca/>\nDefault port: `4555`\nDefault server: `pool.alttank.ca`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer ccminer -a lyra2z -o stratum+tcp://pool.alttank.ca:4555 -u <WALLET_ADDRESS>.rig1 -p c=VTL\nsgminer sgminer -k lyra2z -o stratum+tcp://pool.alttank.ca:4555 -u WALLET_ADDRESS.rig1 -p c=VTL```');
-            break;
-          case 'fish':
-            msg.channel.send('```prolog\nShit.Fish Pool connection info.```\nWebsite: <https://vtl.shit.fish/>\nDefault port: `4553`\nDefault server: `vtl.shit.fish`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://vtl.shit.fish:4553 -u <WALLET_ADDRESS>.rig_name -p c=VTL```');
-            break;
-          case 'crun':
-            msg.channel.send('```prolog\nBlockCruncher Pool connection info.```\nWebsite: <https://blockcruncher.com/>\nDefault port: `4553`\nDefault server: `blockcruncher.com`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://blockcruncher.com:4553 -u <WALLET ADDRESS> -p c=VTL```');
             break;
           case 'angr':
             msg.channel.send('```prolog\nAngry Pool connection info.```\nWebsite: <http://angrypool.com/>\nDefault port: `20077`\nDefault server: `angrypool.com`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://angrypool.com:20077 -u <WALLETID>.rig1 -p c=VTL```');
             break;
-          case 'evil':
-            msg.channel.send('```prolog\nPrivate Evil Pool connection info.```\nWebsite: <http://evil.ru/>\nDefault port: `4553`\nDefault server: `evil.ru`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://evil.ru:4553 -u <WALLETID>.rig1 -p c=VTL```');
+          case 'hive':
+            msg.channel.send('```prolog\nQueenBee HIVE Pool connection info.```\nWebsite: <https://hive.gulfcoastmining.com/>\nDefault port: `4559`\nUS server: `hive.gulfcoastmining.com`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://hive.gulfcoastmining.com:4559 -u WALLETADDRESS.rigname -p c=VTL\nsgminer -k lyra2z -o stratum+tcp://hive.gulfcoastmining.com:4559 -u WALLETADDRESS.rigname -p c=VTL```');
             break;
-          case 'gosc':
-            msg.channel.send('```prolog\nGos.Cx Pool connection info.```\nWebsite: <https://gos.cx/>\nDefault port: `4554`\nDefault server: `stratum.gos.cx`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://stratum.gos.cx:4554 -u <WALLETID>.rig1 -p c=VTL```');
+          case 'rush':
+            msg.channel.send('```prolog\nRush Hour Pool connection info.```\nWebsite: <http://rushhourmining.com/>\nDefault port: `4553`\nDefault server: `rushhourmining.com`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://rushhourmining.com:4553 -u <WALLET_ADDRESS> -p c=VTL```');
             break;
-          case 'cryp':
-            msg.channel.send('```prolog\nCryptoPool Party connection info.```\nWebsite: <https://cryptopool.party/>\nDefault port: `4553`\nDefault server: `cryptopool.party`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://cryptopool.party:4553 -u <WALLETID>.rig1 -p c=VTL```');
+          case 'yeti':
+            msg.channel.send('```prolog\nYeti Mining Pool connection info.```\nWebsite: <https://yetimining.net/>\nDefault port: `4553`\nDefault server: `yetimining.net`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://yetimining.net:4553 -u <WALLET_ADDRESS> -p c=VTL```');
             break;
-          case 'asia':
-            msg.channel.send('```prolog\nAsia Pool connection info.```\nWebsite: <https://asiapool.trade/>\nDefault port: `4554`\nDefault server: `miner.asiapool.trade`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://miner.asiapool.trade:4554 -u waller-addr.rig1 -p c=VTL```');
+          case 'zpol':
+            msg.channel.send('```prolog\nZpool.Ca connection info.```\nWebsite: <https://zpool.ca/>\nDefault port: `4553`\nDefault server: `lyra2z.mine.zpool.ca`\n\nPlease check the pool site to download a miner for this autoexchange mining pool.\n**Examples:**\n```-o stratum+tcp://lyra2z.mine.zpool.ca:4553 -u <WALLET_ADDRESS> -p c=VTL,mc=VTL```');
             break;
-          case 'noto':
-            msg.channel.send('```prolog\nNotoHash Pool connection info.```\nWebsite: <https://notohash.club/>\nDefault port: `4553`\nDefault server: `notohash.club`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://notohash.club:4553 -u WALLET_ADDRESS -p c=VTL```');
+          case 'zerg':
+            msg.channel.send('```prolog\nZergpool connection info.```\nWebsite: <https://zergpool.com/>\nDefault port: `4553`\nDefault server: `lyra2z.mine.zergpool.com`\n\nPlease check the pool site to download a miner for this autoexchange mining pool.\n**Examples:**\n```-o stratum+tcp://lyra2z.mine.zergpool.com:4553 -u <WALLET_ADDRESS> -p c=VTL,mc=VTL```');
             break;
-          case 'coin':
-            msg.channel.send('```prolog\nCOIN-Miners Pool connection info.```\nWebsite: <https://coin-miners.club/>\nDefault port: `4553`\nDefault server: `coin-miners.club`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://coin-miners.club:4553 -u WALLET_ADDRESS -p c=VTL```');
+          case 'cvmp':
+            msg.channel.send('```prolog\nCVM Pool connection info.```\nWebsite: <https://cvmpool.pw/>\nDefault port: `2507`\nDefault server: `cvmpool.pw`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://cvmpool.pw:2507 -u <WALLET_ADDRESS>.<RIG_NAME> -p c=VTL```');
+            break;
+          case 'fair':
+            msg.channel.send('```prolog\nFair Mine Pool connection info.```\nWebsite: <https://fairmine.pro/>\nDefault port: `4552`\nDefault server: `eu1.fairmine.pro`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://eu1.fairmine.pro:4552 -u <WALLET_ADDRESS> -p c=VTL```');
             break;
           case 'powr':
-            msg.channel.send('```prolog\nPower Mining Pool connection info.```\nWebsite: <https://www.powermining.pw/>\nDefault port: `4553`\nDefault server: `pool.powermining.pw`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://pool.powermining.pw:4553 -u <WALLET ADDRESS> -p c=VTL\nsgminer -k lyra2z -o stratum+tcp://pool.powermining.pw:4553 -u <WALLET ADDRESS> -p c=VTL```');
+            msg.channel.send('```prolog\nPower Mining Pool connection info.```\nWebsite: <https://www.powermining.pw/>\nDefault port: `4553`\nDefault server: `pool.powermining.pw`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://pool.powermining.pw:4553 -u <WALLET_ADDRESS> -p c=VTL```');
             break;
-          case 'harv':
-            msg.channel.send('```prolog\nCoinHarvest Pool connection info.```\nWebsite: <https://pool.coinharvest.io/>\nDefault port: `4554`\nDefault server: `pool.coinharvest.io`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://pool.coinharvest.io:3554 -u WALLET_ADDRESS -p c=VTL```');
-            break;
-          case 'jgpl':
-            msg.channel.send('```prolog\nMiningJGPool connection info.```\nWebsite: <https://miningjgpool.ovh/>\nDefault port: `4553`\nDefault server: `miningjgpool.ovh`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://miningjgpool.ovh:4553 -u YOUR_WALLET_ADDRESS -p c=VTL```');
-            break;
-          case 'weed':
-            msg.channel.send('```prolog\nWeekend Pool connection info.```\nWebsite: <http://weekendpool.com/>\nDefault port: `4553`\nDefault server: `weekendpool.com`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://weekendpool.com:4553 -u YOUR_WALLET_ADDRESS -p c=VTL```');
-            break;
-          case 'futu':
-            msg.channel.send('```prolog\nFuture Coins Pool connection info.```\nWebsite: <https://futurecoins.club/>\nDefault port: `4553`\nDefault server: `futurecoins.club`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://futurecoins.club:4553 -u YOUR_WALLET_ADDRESS -p c=VTL```');
-            break;
-          case 'mktp':
-            msg.channel.send('```prolog\nMKTECH Pools connection info.```\nWebsite: <http://mktechpools.xyz/>\nDefault port: `4556`\nDefault server: `mktechpools.xyz`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://mktechpools.xyz:4556 -u WALLET_ADDRESS -p c=VTL```');
+          case 'rare':
+            msg.channel.send('```prolog\nRarePool connection info.```\nWebsite: <http://rarepool.com/>\nDefault port: `4553`\nDefault server: `rarepool.com`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://rarepool.com:4553 -u <WALLET_ADDRESS> -p c=VTL```');
             break;
           default:
             msg.channel.send('Unrecognized pool. Please check again.');
