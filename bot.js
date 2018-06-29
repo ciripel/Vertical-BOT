@@ -191,7 +191,7 @@ client.on('message', msg => {
             msg.channel.send('```prolog\nVet Mining Pool connection info.```\nWebsite: <https://vetmining.com/>\nDefault port: `4553`\nDefault server: `vetmining.com`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://vetmining.com:4553 -u WALLET_ADDRESS -p c=VTL```');
             break;
           case 'roas':
-            msg.channel.send('```prolog\nRoastedGarlicPool connection info.```\nWebsite: <http://roastedgarlicpool.fun/>\nDefault port: `4553`\nDefault server: `roastedgarlicpool.fun`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://roastedgarlicpool.fun:4553 -u <WALLET_ADDRESS> -p c=VTL```');
+            msg.channel.send('```prolog\nRoastedGarlicPool connection info.```\nWebsite: <http://roastedgarlicpool.fun/>\nDefault port: `32323`\nDefault server: `roastedgarlicpool.fun`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://roastedgarlicpool.fun:32323 -u <WALLET_ADDRESS> -p c=VTL```');
             break;
           case 'blaz':
             msg.channel.send('```prolog\nBlazepool connection info.```\nWebsite: <http://blazepool.com/>\nDefault port: `4553`\nDefault server: `lyra2z.mine.blazepool.com`\n\nPlease check the pool site to download a miner for this autoexchange mining pool.\n**Examples:**\n```-o stratum+tcp://lyra2z.mine.blazepool.com:4553 -u <WALLET_ADDRESS> -p c=VTL,mc=VTL```');
