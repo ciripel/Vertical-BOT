@@ -37,10 +37,12 @@ client.on('message', msg => {
         case 'netinfo':
           fetch('https://explorer.vertical.ovh/api/getdifficulty')
             .then(res => res.json())
-            .then(json => current_diff = Math.floor(json*1000)/1000);
+            .then(json => current_diff = Math.floor(json*1000)/1000)
+            .catch(error => console.log(`Can't connect to https://explorer.vertical.ovh/api/getdifficulty.\nError: \n-----------\n${error}\n-----------`));
           fetch('https://explorer.vertical.ovh/api/tx/latest')
             .then(res => res.json())
-            .then(json => current_block = json[0].blockHeight);
+            .then(json => current_block = json[0].blockHeight)
+            .catch(error => console.log(`Can't connect to https://explorer.vertical.ovh/api/tx/latest.\nError: \n-----------\n${error}\n-----------`));
           fetch('https://explorer.vertical.ovh/api/getnetworkhashps')
             .then(res => res.json())
             .then(json => {switch (true){
@@ -60,7 +62,8 @@ client.on('message', msg => {
               msg.channel.send(`• Block Height •           **${current_block}**\n• Network Hashrate • **${Math.floor(json*1000)/1000}** H/s\n• Network Difficulty • **${current_diff}**`);
               break;
             }
-            });
+            })
+            .catch(error => console.log(`Can't connect to https://explorer.vertical.ovh/api/getnetworkhashps.\nError: \n-----------\n${error}\n-----------`));
           break;
         case 'help':
           msg.channel.send('-- `?help` | This is your help.\n-- `?links` | Useful links.\n-- `?netinfo` | Show current network stats.\n-- `?mninfo` | Masternodes info.\n-- `?hpow [your Kh/s]` | Approximate VTL per hour/day.\n-- `?mnrewards [no. of nodes]` | Approximate VTL reward per day.\n-- `?vtlusd [amount]` | Current price in USD.\n-- `?coininfo` | Show coin info.\n-- `?exchange [EXCHANGE]` | Current Verticalcoin exchanges [_exchange info_].\n-- `?pool [POOL]` | Verticalcoin mining pools [_connection info_].\n-- `?about` | Info about this bot.');
@@ -91,12 +94,14 @@ client.on('message', msg => {
               msg.channel.send(`Current network difficulty is **${Math.floor(json*1000)/1000}**.\nA hashrate of **${args[0]} Mh/s** will get you approximately **${Math.floor(args[0]*3000/json*36*24/120)/1000} VTL** per **hour** and **${Math.floor(args[0]*3000/json*36*24*24/120)/1000} VTL** per **day** at current network difficulty.`);
               break;
             }
-            });
+            })
+            .catch(error => console.log(`Can't connect to https://explorer.vertical.ovh/api/getdifficulty.\nError: \n-----------\n${error}\n-----------`));
           break;
         case 'mninfo':
           fetch('https://explorer.vertical.ovh/api/masternodecount')
             .then(res => res.json())
-            .then(json => msg.channel.send(`• Total nodes•      **${json.total}**\n• Enabled nodes• **${json.enabled}**\n• Install Guide • <https://github.com/Dwigt007/VerticalMasternodeSetup>`));
+            .then(json => msg.channel.send(`• Total nodes•      **${json.total}**\n• Enabled nodes• **${json.enabled}**\n• Install Guide • <https://github.com/Dwigt007/VerticalMasternodeSetup>`))
+            .catch(error => console.log(`Can't connect to https://explorer.vertical.ovh/api/masternodecount.\nError: \n-----------\n${error}\n-----------`));
           break;
         case 'mnrewards':
           fetch('https://explorer.vertical.ovh/api/masternodecount')
@@ -118,7 +123,8 @@ client.on('message', msg => {
               msg.channel.send(`**${args[0]}** masternode(s) will give you approximately **${Math.floor(3600000*24/120*8/json.enabled*args[0])/1000} VTL** per **day**`);
               break;
             }
-            });
+            })
+            .catch(error => console.log(`Can't connect to https://explorer.vertical.ovh/api/masternodecount.\nError: \n-----------\n${error}\n-----------`));
           break;
         case 'exchange':
           switch (cmd1){
@@ -130,7 +136,8 @@ client.on('message', msg => {
               .then(res => res.json())
               .then(json =>
                 msg.channel.send(`\n• Last price:  **${json.ticker.last} BTC**\n• 24h Change:  **${Math.floor(json.ticker.change*1000)/1000}%**\n• 24h Max Buy:  **${json.ticker.high} BTC**\n• 24h Min Sell:  **${json.ticker.low} BTC**\n• 24h Volume:  **${Math.floor(json.ticker.vol*1000)/1000} VTL** | **${Math.floor(json.ticker.volbtc*1000)/1000} BTC**\n`)
-              );
+              )
+              .catch(error => console.log(`Can't connect to https://graviex.net/api/v2/tickers/vtlbtc.\nError: \n-----------\n${error}\n-----------`));
             break;
           case 'brid':
             fetch('https://api.crypto-bridge.org/api/v1/ticker')
@@ -140,14 +147,15 @@ client.on('message', msg => {
                   if (json[i].id == 'VTL_BTC') {fix=i; break;}}
               }
               msg.channel.send(`\n• Last price:  **${json[fix].last} BTC**\n• 24h Max Buy:  **${json[fix].ask} BTC**\n• 24h Min Sell:  **${json[fix].bid} BTC**\n• 24h Volume:  **${Math.floor(json[fix].volume*1000)/1000} BTC**\n`);
-              });
+              })
+              .catch(error => console.log(`Can't connect to https://api.crypto-bridge.org/api/v1/ticker.\nError: \n-----------\n${error}\n-----------`));
             break;
           default:
             msg.channel.send('Maybe you wanted to write `?exchange` or `?exchange [EXCHANGE]`?');
             break;}
           break;
         case 'vtlusd':
-          fetch('https://explorer.vertical.ovh/api/coin/')
+          fetch('https://explorer.vertical.ovh/api/coin')
             .then(res => res.json())
             .then (json => {switch(true) {
             case args[0]===undefined:
@@ -166,15 +174,18 @@ client.on('message', msg => {
               msg.channel.send(`**${args[0]} VTL** = **${Math.floor(json.usd*args[0]*1000/1000)}$**\n_Today the approximate price of ***1 VTL*** is ***${Math.floor(json.usd*1000)/1000}$***_`);
               break;
             }
-            });
+            })
+            .catch(error => console.log(`Can't connect to https://explorer.vertical.ovh/api/coin.\nError: \n-----------\n${error}\n-----------`));
           break;
         case 'coininfo':
           fetch('https://explorer.vertical.ovh/api/supply')
             .then(res => res.json())
-            .then(json => total_supply = json.t);
-          fetch('https://explorer.vertical.ovh/api/coin/')
+            .then(json => total_supply = json.t)
+            .catch(error => console.log(`Can't connect to https://explorer.vertical.ovh/api/supply.\nError: \n-----------\n${error}\n-----------`));
+          fetch('https://explorer.vertical.ovh/api/coin')
             .then(res => res.json())
-            .then(json => msg.channel.send(`• Current Price•          **${json.btc} BTC** | **${Math.floor(json.usd*1000)/1000}$**\n• Market Cap•             **${Math.floor(json.usd*total_supply*1000)/1000}$**\n• Circulating Supply• **${Math.floor(total_supply)} VTL**\n• Locked Coins•          **${3750*(json.mnsOn+json.mnsOff)} VTL**`));
+            .then(json => msg.channel.send(`• Current Price•          **${json.btc} BTC** | **${Math.floor(json.usd*1000)/1000}$**\n• Market Cap•             **${Math.floor(json.usd*total_supply*1000)/1000}$**\n• Circulating Supply• **${Math.floor(total_supply)} VTL**\n• Locked Coins•          **${3750*(json.mnsOn+json.mnsOff)} VTL**`))
+            .catch(error => console.log(`Can't connect to https://explorer.vertical.ovh/api/coin.\nError: \n-----------\n${error}\n-----------`));
           break;
         case 'pool':
           switch (cmd1){
