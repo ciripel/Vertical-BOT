@@ -10,6 +10,18 @@ let i = 0;
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
+  fetch('https://explorer.vertical.ovh/api/tx/latest')
+    .then(res => res.json())
+    .then(json => current_block = json[0].blockHeight)
+    .catch(error => console.log(`Can't connect to https://explorer.vertical.ovh/api/tx/latest.\nError: \n-----------\n${error}\n-----------`));
+  fetch('https://explorer.vertical.ovh/api/getdifficulty')
+    .then(res => res.json())
+    .then(json => current_diff = Math.floor(json*1000)/1000)
+    .catch(error => console.log(`Can't connect to https://explorer.vertical.ovh/api/getdifficulty.\nError: \n-----------\n${error}\n-----------`));
+  fetch('https://explorer.vertical.ovh/api/supply')
+    .then(res => res.json())
+    .then(json => total_supply = json.t)
+    .catch(error => console.log(`Can't connect to https://explorer.vertical.ovh/api/supply.\nError: \n-----------\n${error}\n-----------`));
 });
 
 client.on('message', msg => {
