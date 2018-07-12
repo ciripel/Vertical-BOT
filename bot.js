@@ -128,13 +128,13 @@ client.on('message', msg => {
         case 'exchange':
           switch (cmd1){
           case undefined:
-            msg.channel.send('-- `?exchange grav` | **Graviex** • <https://graviex.net/markets/vtlbtc>\n-- `?exchange brid` | **CryptoBridge** • <https://wallet.crypto-bridge.org/market/BRIDGE.VTL_BRIDGE.BTC>\n\nUse `?exchange [EXCHANGE]` for additional info');
+            msg.channel.send('-- `?exchange grav` | **Graviex** • <https://graviex.net/markets/vtlbtc>\n-- `?exchange brid` | **CryptoBridge** • <https://wallet.crypto-bridge.org/market/BRIDGE.VTL_BRIDGE.BTC>\n-- `?exchange safe` | **Safe.Trade** • <https://safe.trade/trading/vtlsafe> | <https://safe.trade/trading/vtlltc>\n\nUse `?exchange [EXCHANGE]` for additional info');
             break;
           case 'grav':
             fetch('https://graviex.net/api/v2/tickers/vtlbtc')
               .then(res => res.json())
               .then(json =>
-                msg.channel.send(`\n• Last price:  **${json.ticker.last} BTC**\n• 24h Change:  **${Math.floor(json.ticker.change*1000)/1000}%**\n• 24h Max Buy:  **${json.ticker.high} BTC**\n• 24h Min Sell:  **${json.ticker.low} BTC**\n• 24h Volume:  **${Math.floor(json.ticker.vol*1000)/1000} VTL** | **${Math.floor(json.ticker.volbtc*1000)/1000} BTC**\n`)
+                msg.channel.send(`• Last price:  **${json.ticker.last} BTC**\n• 24h Change:  **${Math.floor(json.ticker.change*1000)/1000}%**\n• 24h Max Buy:  **${json.ticker.high} BTC**\n• 24h Min Sell:  **${json.ticker.low} BTC**\n• 24h Volume:  **${Math.floor(json.ticker.vol*1000)/1000} VTL** | **${Math.floor(json.ticker.volbtc*1000)/1000} BTC**`)
               )
               .catch(error => console.log(`Can't connect to https://graviex.net/api/v2/tickers/vtlbtc.\nError: \n-----------\n${error}\n-----------`));
             break;
@@ -145,9 +145,17 @@ client.on('message', msg => {
                 for (i=0;i<json.length;i++){
                   if (json[i].id == 'VTL_BTC') {fix=i; break;}}
               }
-              msg.channel.send(`\n• Last price:  **${json[fix].last} BTC**\n• 24h Max Buy:  **${json[fix].ask} BTC**\n• 24h Min Sell:  **${json[fix].bid} BTC**\n• 24h Volume:  **${Math.floor(json[fix].volume*1000)/1000} BTC**\n`);
+              msg.channel.send(`• Last price:  **${json[fix].last} BTC**\n• 24h Max Buy:  **${json[fix].ask} BTC**\n• 24h Min Sell:  **${json[fix].bid} BTC**\n• 24h Volume:  **${Math.floor(json[fix].volume*1000)/1000} BTC**`);
               })
               .catch(error => console.log(`Can't connect to https://api.crypto-bridge.org/api/v1/ticker.\nError: \n-----------\n${error}\n-----------`));
+            break;
+          case 'safe':
+            fetch('https://safe.trade/api/v2/tickers/vtlsafe')
+              .then(res => res.json())
+              .then(json =>
+                msg.channel.send(`• Last price:  **${json.ticker.last} SAFE**\n• Current buy price:  **${json.ticker.buy} SAFE**\n• Current sell price:  **${json.ticker.sell} SAFE**\n• 24h Max Buy:  **${json.ticker.high} SAFE**\n• 24h Min Sell:  **${json.ticker.low} SAFE**\n• 24h Volume:  **${Math.floor(json.ticker.vol*1000)/1000} VTL**`)
+              )
+              .catch(error => console.log(`Can't connect to https://graviex.net/api/v2/tickers/vtlbtc.\nError: \n-----------\n${error}\n-----------`));
             break;
           default:
             msg.channel.send('Maybe you wanted to write `?exchange` or `?exchange [EXCHANGE]`?');
