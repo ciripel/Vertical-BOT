@@ -7,6 +7,7 @@ let current_diff = 1;
 let total_supply = 1;
 let fix = 0;
 let i = 0;
+let ticker_vtlltc = {};
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -22,6 +23,10 @@ client.on('ready', () => {
     .then(res => res.json())
     .then(json => total_supply = json.t)
     .catch(error => console.log(`Can't connect to https://explorer.vertical.ovh/api/supply.\nError: \n-----------\n${error}\n-----------`));
+  fetch('https://safe.trade/api/v2/tickers/vtlltc')
+    .then(res => res.json())
+    .then(json => ticker_vtlltc = json)
+    .catch(error => console.log(`Can't connect to https://safe.trade/api/v2/tickers/vtlltc.\nError: \n-----------\n${error}\n-----------`));
 });
 
 client.on('message', msg => {
@@ -150,10 +155,14 @@ client.on('message', msg => {
               .catch(error => console.log(`Can't connect to https://api.crypto-bridge.org/api/v1/ticker.\nError: \n-----------\n${error}\n-----------`));
             break;
           case 'safe':
+            fetch('https://safe.trade/api/v2/tickers/vtlltc')
+              .then(res => res.json())
+              .then(json => ticker_vtlltc = json)
+              .catch(error => console.log(`Can't connect to https://safe.trade/api/v2/tickers/vtlltc.\nError: \n-----------\n${error}\n-----------`));
             fetch('https://safe.trade/api/v2/tickers/vtlsafe')
               .then(res => res.json())
               .then(json =>
-                msg.channel.send(`• Last price:  **${json.ticker.last} SAFE**\n• Current buy price:  **${json.ticker.buy} SAFE**\n• Current sell price:  **${json.ticker.sell} SAFE**\n• 24h Max Buy:  **${json.ticker.high} SAFE**\n• 24h Min Sell:  **${json.ticker.low} SAFE**\n• 24h Volume:  **${Math.floor(json.ticker.vol*1000)/1000} VTL**`)
+                msg.channel.send(`• Last price:  **${json.ticker.last} SAFE**\n• Current buy price:  **${json.ticker.buy} SAFE**\n• Current sell price:  **${json.ticker.sell} SAFE**\n• 24h Max Buy:  **${json.ticker.high} SAFE**\n• 24h Min Sell:  **${json.ticker.low} SAFE**\n• 24h Volume:  **${Math.floor(json.ticker.vol*1000)/1000} VTL**\n---------------------------------\n• Last price:  **${ticker_vtlltc.ticker.last} LTC**\n• Current buy price:  **${ticker_vtlltc.ticker.buy} LTC**\n• Current sell price:  **${ticker_vtlltc.ticker.sell} LTC**\n• 24h Max Buy:  **${ticker_vtlltc.ticker.high} LTC**\n• 24h Min Sell:  **${ticker_vtlltc.ticker.low} LTC**\n• 24h Volume:  **${Math.floor(ticker_vtlltc.ticker.vol*1000)/1000} VTL**`)
               )
               .catch(error => console.log(`Can't connect to https://graviex.net/api/v2/tickers/vtlbtc.\nError: \n-----------\n${error}\n-----------`));
             break;
@@ -197,7 +206,7 @@ client.on('message', msg => {
         case 'pool':
           switch (cmd1){
           case undefined:
-            msg.channel.send('-- `?pool bsod` | Bsod.pw <https://bsod.pw/>\n-- `?pool hive` | QueenBee HIVE <https://hive.gulfcoastmining.com/>\n-- `?pool fair` | Fair Mine <https://fairmine.pro/>\n-- `?pool more` | MinerMore <https://minermore.com/>\n-- `?pool gosc` | Gos.cx <https://gos.cx/>\n-- `?pool mktp` | MKTECH Pools <http://mktechpools.xyz/>\n-- `?pool angr` | Angry Pool <http://angrypool.com/>\n-- `?pool umin` | UMine <https://umine.org/>\n-- `?pool rush` | Rush Hour Mining <http://rushhourmining.com/>\n-- `?pool vetm` | Vet Mining Pool <https://vetmining.com/>\n-- `?pool zpol` | Zpool <https://zpool.ca/>\n-- `?pool zerg` | Zergpool <https://zergpool.com/>\n-- `?pool phip` | Phi Phi Pool <http://www.phi-phi-pool.com/>\n-- `?pool roas` | RoastedGarlicPool <http://roastedgarlicpool.fun/>\n-- `?pool blaz` | Blazepool <http://blazepool.com/>\n-- `?pool arcp` | ArcPool <https://arcpool.com/>\n-- `?pool cvmp` | CVM pool <https://cvmpool.pw/>\n-- `?pool powr` | Power Mining <https://www.powermining.pw/>\n-- `?pool rare` | RarePool <http://rarepool.com/>\n\nUse `?pool [POOL]` for specific mining details\n_Please spread the hashpower across all pools._');
+            msg.channel.send('-- `?pool bsod` | Bsod.pw <https://bsod.pw/>\n-- `?pool hive` | QueenBee HIVE <https://hive.gulfcoastmining.com/>\n-- `?pool fair` | Fair Mine <https://fairmine.pro/>\n-- `?pool more` | MinerMore <https://minermore.com/>\n-- `?pool gosc` | Gos.cx <https://gos.cx/>\n-- `?pool mktp` | MKTECH Pools <http://mktechpools.xyz/>\n-- `?pool angr` | Angry Pool <http://angrypool.com/>\n-- `?pool umin` | UMine <https://umine.org/>\n-- `?pool rush` | Rush Hour Mining <http://rushhourmining.com/>\n-- `?pool zpol` | Zpool <https://zpool.ca/>\n-- `?pool zerg` | Zergpool <https://zergpool.com/>\n-- `?pool phip` | Phi Phi Pool <http://www.phi-phi-pool.com/>\n-- `?pool roas` | RoastedGarlicPool <http://roastedgarlicpool.fun/>\n-- `?pool blaz` | Blazepool <http://blazepool.com/>\n-- `?pool arcp` | ArcPool <https://arcpool.com/>\n-- `?pool cvmp` | CVM pool <https://cvmpool.pw/>\n-- `?pool powr` | Power Mining <https://www.powermining.pw/>\n-- `?pool rare` | RarePool <http://rarepool.com/>\n\nUse `?pool [POOL]` for specific mining details\n_Please spread the hashpower across all pools._');
             break;
           case 'bsod':
             msg.channel.send('```prolog\nTheBSODPool connection info.```\nWebsite: <https://bsod.pw/>\nDefault port: `2286`\nEU server: `eu.bsod.pw`\nUS server: `us.bsod.pw`\nAsia server: `asia.bsod.pw`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://eu.bsod.pw:2286 -u WALLET.rig -p c=VTL```');
@@ -225,9 +234,6 @@ client.on('message', msg => {
             break;
           case 'rush':
             msg.channel.send('```prolog\nRush Hour Pool connection info.```\nWebsite: <http://rushhourmining.com/>\nDefault port: `4553`\nDefault server: `rushhourmining.com`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://rushhourmining.com:4553 -u <WALLET_ADDRESS> -p c=VTL```');
-            break;
-          case 'vetm':
-            msg.channel.send('```prolog\nVet Mining Pool connection info.```\nWebsite: <https://vetmining.com/>\nDefault port: `4553`\nDefault server: `vetmining.com`\n\nTo mine Verticalcoin u can use any lyra2z miner.\n**Examples:**\n```ccminer -a lyra2z -o stratum+tcp://vetmining.com:4553 -u WALLET_ADDRESS -p c=VTL```');
             break;
           case 'zpol':
             msg.channel.send('```prolog\nZpool.Ca connection info.```\nWebsite: <https://zpool.ca/>\nDefault port: `4553`\nDefault server: `lyra2z.mine.zpool.ca`\n\nPlease check the pool site to download a miner for this autoexchange mining pool.\n**Examples:**\n```-o stratum+tcp://lyra2z.mine.zpool.ca:4553 -u <WALLET_ADDRESS> -p c=VTL,mc=VTL```');
