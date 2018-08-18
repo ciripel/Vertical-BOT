@@ -29,6 +29,17 @@ client.on('ready', () => {
     .catch(error => console.log(`Can't connect to https://safe.trade/api/v2/tickers/vtlltc.\nError: \n-----------\n${error}\n-----------`));
 });
 
+client.on('error', (e) => console.log(`Error on ready ...${e}`));
+
+client.on('reconnecting',() =>
+  console.log(`Bot ${client.user.tag} reconected!`));
+
+client.on('disconnect',() => {
+  console.log(`Bot ${client.user.tag} disconnected ... Attempted reconnecting... `);
+  client.login(auth.token)
+    .catch(error => console.log(`Can't login into discord due to ${error}`));
+});
+
 client.on('message', msg => {
   if(msg.content.substring(0, 1) === '?') {
     if(msg.webhookID === null) {
@@ -73,7 +84,7 @@ client.on('message', msg => {
           msg.channel.send('-- `?help` | This is your help.\n-- `?links` | Useful links.\n-- `?netinfo` | Show current network stats.\n-- `?mninfo` | Masternodes info.\n-- `?hpow [your Kh/s]` | Approximate VTL per hour/day.\n-- `?mnrewards [no. of nodes]` | Approximate VTL reward per day.\n-- `?vtlusd [amount]` | Current price in USD.\n-- `?coininfo` | Show coin info.\n-- `?exchange [EXCHANGE]` | Current Verticalcoin exchanges [_exchange info_].\n-- `?pool [POOL]` | Verticalcoin mining pools [_connection info_].\n-- `?about` | Info about this bot.');
           break;
         case 'links':
-          msg.channel.send('**Vertical Website** • <http://verticalcoin.io/>\n**Vertical Announcement** • <https://bitcointalk.org/index.php?topic=3921947>\n**Vertical Whitepaper** • <http://verticalcoin.io/Vertical-Whitepaper.pdf>\n**Vertical Github** • <https://github.com/verticalcoin/>\n**Vertical Wallets** • <https://github.com/verticalcoin/verticalcoin/releases>\n**Vertical Block Explorer** • <https://explorer.vertical.ovh/#/>\n**Vertical Community** • <https://twitter.com/vtlcoin/> <https://www.reddit.com/r/vtlcoin/> <https://www.youtube.com/channel/UC9sWnlAVxjAZyfCIxjolQqw/>');
+          msg.channel.send('**Vertical Website** • <https://www.vtlcoin.io/>\n**Vertical Announcement** • <https://bitcointalk.org/index.php?topic=3921947>\n**Vertical Whitepaper** • <http://verticalcoin.io/Vertical-Whitepaper.pdf>\n**Vertical Github** • <https://github.com/verticalcoin/>\n**Vertical Wallets** • <https://github.com/verticalcoin/verticalcoin/releases>\n**Vertical Block Explorer** • <https://explorer.vertical.ovh/#/>\n**Vertical Community** • <https://twitter.com/vtlcoin/> <https://www.reddit.com/r/vtlcoin/> <https://www.youtube.com/channel/UC9sWnlAVxjAZyfCIxjolQqw/>');
           break;
         case 'about':
           msg.channel.send('• Version 1.2\n• Author: ciripel _(Discord: Amitabha#0517)_\n• Source Code: <https://github.com/ciripel/Vertical-BOT>\n• _This bot idea was born and grew with <https://akroma.io/>._');
