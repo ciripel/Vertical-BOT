@@ -4,7 +4,7 @@
 
 v.1.0 - deployed 20.05.2018
 - initial version
-```
+
 $ make test-integration ARGS="-v -run=TestIntegration/bitcloud=main"
 === RUN   TestIntegration
 === RUN   TestIntegration/bitcloud=main
@@ -47,4 +47,3 @@ $ make test-integration ARGS="-v -run=TestIntegration/bitcloud=main"
                 --- PASS: TestIntegration/bitcloud=main/sync/ConnectBlocks/verifyAddresses (0.00s)
 PASS
 ok      blockbook/tests 0.684s
-```
